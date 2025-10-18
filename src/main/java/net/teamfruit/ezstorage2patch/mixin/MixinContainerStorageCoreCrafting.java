@@ -114,6 +114,11 @@ public abstract class MixinContainerStorageCoreCrafting extends ContainerStorage
 
     @Inject(method = "slotClick", at = @At(value = "INVOKE", target = "Lcom/zerofall/ezstorage/gui/server/ContainerStorageCore;slotClick(IILnet/minecraft/inventory/ClickType;Lnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;", ordinal = 0), cancellable = true)
     private void injectSlotClick1(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player, CallbackInfoReturnable<ItemStack> cir) {
+        // Only handle crafting result slot (slot 0)
+        if (slotId != 0) {
+            return;  // Let the original method handle other slots
+        }
+
         // Get the crafting result slot
         Slot slot1 = this.getSlot(0);
         if (!slot1.getHasStack()) {
